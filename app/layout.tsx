@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
+import { Sidebar } from '@/src/components';
+import { ContextProvider, GlobalStyleProvider } from '@/src/providers';
+import StyledComponentsRegistry from '@/src/utils/lib/Registry';
+
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -15,9 +19,17 @@ interface RootLayoutProps {
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang='en'>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <StyledComponentsRegistry>
+          <ContextProvider>
+            <GlobalStyleProvider>
+              <Sidebar />
+              {children}
+            </GlobalStyleProvider>
+          </ContextProvider>
+        </StyledComponentsRegistry>
+      </body>
     </html>
   );
 };
-
 export default RootLayout;
